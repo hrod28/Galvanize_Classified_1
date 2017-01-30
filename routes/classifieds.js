@@ -63,4 +63,17 @@ router.patch('/:id', (req, res, next)=>{
     })
 });
 
+router.delete('/:id', (req, res, next)=>{
+  knex('classifieds')
+    .where('id', req.params.id)
+    .del()
+    .returning(['id', 'title', 'description', 'price', 'item_image'])
+    .then((result)=>{
+      res.send(result[0]);
+    })
+    .catch((err)=>{
+      res.send(err)
+    })
+});
+
 module.exports = router;
