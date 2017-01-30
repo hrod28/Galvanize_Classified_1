@@ -15,7 +15,7 @@ router.get('/', (req, res, next)=>{
     .catch((err)=>{
       res.send(err)
     })
-})
+});
 
   router.get('/:id', (req, res, next)=>{
     knex('classifieds')
@@ -28,5 +28,22 @@ router.get('/', (req, res, next)=>{
         res.send(err)
       })
   });
+
+  router.post('/', (req, res, next) => {
+  knex('classifieds')
+    .insert({
+      id: req.body.id,
+      title: req.body.title,
+      description: req.body.description,
+      price: req.body.price,
+      item_image: req.body.item_image
+    }, ['id', 'title', 'description', 'price', 'item_image'])
+    .then((result)=>{
+      res.send(result[0]);
+    })
+    .catch((err)=>{
+      res.send(err)
+    })
+});
 
 module.exports = router;
