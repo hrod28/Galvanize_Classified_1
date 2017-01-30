@@ -46,4 +46,21 @@ router.get('/', (req, res, next)=>{
     })
 });
 
+router.patch('/:id', (req, res, next)=>{
+  knex('classifieds')
+    .update({
+      title: req.body.title,
+      description: req.body.description,
+      price: req.body.price,
+      item_image: req.body.item_image
+    }, ['id', 'title', 'description', 'price', 'item_image'])
+    .where({id: req.params.id})
+    .then((result)=>{
+      res.send(result[0]);
+    })
+    .catch((err)=>{
+      res.send(err)
+    })
+});
+
 module.exports = router;
